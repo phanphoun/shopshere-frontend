@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '@/router'
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || '/api',
@@ -30,9 +31,9 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       localStorage.removeItem('auth_token')
       localStorage.removeItem('user')
-      const currentPath = window.location.pathname
-      if (!currentPath.startsWith('/login') && !currentPath.startsWith('/register')) {
-        window.location.href = '/login'
+      const currentRoute = router.currentRoute.value
+      if (currentRoute.name !== 'login' && currentRoute.name !== 'register') {
+        router.push({ name: 'login', query: { redirect: currentRoute.fullPath } })
       }
     }
 
