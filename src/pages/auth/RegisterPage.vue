@@ -1,41 +1,57 @@
 <template>
   <div>
-    <h2 class="text-xl font-bold text-[#111827] text-center mb-1">{{ $t('auth.createAccount') }}</h2>
-    <p class="text-sm text-[#6B7280] text-center mb-6">{{ $t('auth.registerDesc') }}</p>
+    <h2 class="text-3xl font-bold text-primary-600 mb-1">Welcome!</h2>
+    <p class="text-base text-gray-500 mb-8">Sign in to your Account</p>
 
-    <form @submit.prevent="register" class="space-y-4">
+    <form @submit.prevent="register" class="space-y-5">
       <div>
-        <label class="text-sm font-semibold text-[#111827] block mb-1.5">{{ $t('auth.fullName') }}</label>
-        <input v-model="form.name" required class="input" placeholder="John Doe">
+        <label class="text-sm font-semibold text-gray-700 block mb-2">Full Name</label>
+        <input v-model="form.name" required class="input w-full rounded-full" placeholder="Your full name">
       </div>
 
       <div>
-        <label class="text-sm font-semibold text-[#111827] block mb-1.5">{{ $t('checkout.email') }}</label>
-        <input v-model="form.email" type="email" required class="input" placeholder="you@example.com">
+        <label class="text-sm font-semibold text-gray-700 block mb-2">{{ $t('checkout.email') }}</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9" />
+            </svg>
+          </div>
+          <input v-model="form.email" type="email" required class="input w-full rounded-full pl-10" placeholder="Email Address">
+        </div>
       </div>
 
       <div>
-        <label class="text-sm font-semibold text-[#111827] block mb-1.5">{{ $t('profile.phone') }}</label>
-        <input v-model="form.phone" type="tel" class="input" placeholder="+1 555 000 0000">
+        <label class="text-sm font-semibold text-gray-700 block mb-2">{{ $t('auth.password') }}</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <input v-model="form.password" type="password" required minlength="8" class="input w-full rounded-full pl-10" placeholder="Password">
+        </div>
+        <p class="text-xs text-gray-500 mt-1.5 ml-1">Use 8 or more characters with a mix of letters, numbers &amp; symbols.</p>
       </div>
 
       <div>
-        <label class="text-sm font-semibold text-[#111827] block mb-1.5">{{ $t('auth.password') }}</label>
-        <input v-model="form.password" type="password" required minlength="8" class="input" placeholder="••••••••">
-        <p class="text-xs text-[#6B7280] mt-1">{{ $t('auth.passwordHint') }}</p>
+        <label class="text-sm font-semibold text-gray-700 block mb-2">{{ $t('auth.confirmPassword') }}</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <input v-model="form.password_confirmation" type="password" required minlength="8" class="input w-full rounded-full pl-10" placeholder="Confirm Password">
+        </div>
       </div>
 
-      <div>
-        <label class="text-sm font-semibold text-[#111827] block mb-1.5">{{ $t('auth.confirmPassword') }}</label>
-        <input v-model="form.password_confirmation" type="password" required class="input" placeholder="••••••••">
-      </div>
-
-      <button type="submit" :disabled="authStore.loading" class="btn-primary w-full h-12 text-sm font-semibold">
+      <button type="submit" :disabled="authStore.loading" class="w-full h-12 rounded-full bg-primary-600 text-white text-sm font-bold hover:bg-primary-700 transition-colors disabled:opacity-50">
         {{ authStore.loading ? $t('auth.creatingAccount') : $t('auth.createAccount') }}
       </button>
     </form>
 
-    <p class="text-center text-sm text-[#6B7280] mt-6">
+    <p class="text-center text-sm text-gray-500 mt-6">
       {{ $t('auth.haveAccount') }}
       <RouterLink :to="{ name: 'login' }" class="text-primary-600 font-semibold hover:text-primary-700">{{ $t('auth.signIn') }}</RouterLink>
     </p>

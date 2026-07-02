@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
+  <div class="mx-auto max-w-[1400px] px-6 py-10">
     <h1 class="text-3xl font-bold mb-6">{{ $t('order.title') }}</h1>
 
     <LoadingSpinner v-if="orderStore.loading" />

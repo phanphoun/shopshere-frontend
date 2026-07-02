@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
+  <div class="mx-auto max-w-[1400px] px-6 py-10">
     <RouterLink :to="{ name: 'orders' }" class="text-primary-600 hover:underline text-sm">{{ $t('order.backToOrders') }}</RouterLink>
 
     <LoadingSpinner v-if="orderStore.loading" />

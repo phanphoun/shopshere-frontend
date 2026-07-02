@@ -11,6 +11,25 @@ const api = axios.create({
   withCredentials: false,
 })
 
+let redirecting = false
+
+const safelyRedirect = (target) => {
+  try {
+    const app = target || router
+    const currentRoute =
+      typeof app.currentRoute?.value === 'object' ? app.currentRoute.value : null
+    if (
+      currentRoute &&
+      currentRoute.name !== 'login' &&
+      currentRoute.name !== 'register'
+    ) {
+      app.push({ name: 'login', query: { redirect: currentRoute.fullPath } })
+    }
+  } catch (e) {
+    // ignore navigation issues during auth redirects
+  }
+}
+
 // Request interceptor: attach auth token
 api.interceptors.request.use(
   (config) => {
@@ -27,17 +46,15 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Auto-logout on 401
     if (error.response?.status === 401) {
       localStorage.removeItem('auth_token')
       localStorage.removeItem('user')
-      const currentRoute = router.currentRoute.value
-      if (currentRoute.name !== 'login' && currentRoute.name !== 'register') {
-        router.push({ name: 'login', query: { redirect: currentRoute.fullPath } })
+      if (!redirecting) {
+        redirecting = true
+        safelyRedirect(router)
       }
     }
 
-    // Format error message
     const message =
       error.response?.data?.message ||
       error.response?.data?.errors?.[Object.keys(error.response?.data?.errors || {})[0]]?.[0] ||

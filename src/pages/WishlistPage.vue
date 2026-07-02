@@ -11,8 +11,10 @@
 
     <div v-else class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <div v-for="item in wishlistStore.items" :key="item.id" class="relative">
-        <ProductCard :product="item.product" @quick-view="onQuickView" />
-        <button @click="remove(item.product_id)"
+        <template v-if="item.product">
+          <ProductCard :product="item.product" @quick-view="onQuickView" />
+        </template>
+        <button v-else @click="remove(item.product_id)"
           class="absolute top-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-sm transition-all duration-200 hover:bg-red-50 hover:text-[#EF4444] hover:scale-110">
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
