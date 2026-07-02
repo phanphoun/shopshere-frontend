@@ -103,6 +103,27 @@ export const useAuthStore = defineStore('auth', () => {
     return await api.put('/change-password', payload)
   }
 
+  async function socialLogin(driver) {
+    loading.value = true
+    error.value = null
+    try {
+      const { data } = await api.get('/social/auth/redirect/google')
+      return data.data.url
+    } catch (e) {
+      error.value = e.formattedMessage
+      throw e
+    } finally {
+      loading.value = false
+    }
+  }
+
+  async function socialCallback(payload) {
+    user.value = payload.user
+    token.value = payload.token
+    localStorage.setItem('user', JSON.stringify(payload.user))
+    localStorage.setItem('auth_token', payload.token)
+  }
+
   return {
     user,
     token,
@@ -116,5 +137,7 @@ export const useAuthStore = defineStore('auth', () => {
     getProfile,
     updateProfile,
     changePassword,
+    socialLogin,
+    socialCallback,
   }
 })

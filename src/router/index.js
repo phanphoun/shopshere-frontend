@@ -26,9 +26,10 @@ const routes = [
     children: [
       { path: 'login', name: 'login', component: () => import('@/pages/auth/LoginPage.vue') },
       { path: 'register', name: 'register', component: () => import('@/pages/auth/RegisterPage.vue') },
+      { path: 'auth/social/callback/:driver', name: 'social-callback', component: () => import('@/pages/auth/SocialCallbackPage.vue') },
     ],
   },
-  { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import('@/pages/NotFoundPage.vue') },
+  { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import('@/pages/NotFoundPage.vue') }
 ]
 
 const router = createRouter({
