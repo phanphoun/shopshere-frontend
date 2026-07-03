@@ -47,6 +47,7 @@
                 <option value="cod">{{ $t('checkout.cashOnDelivery') }}</option>
                 <option value="stripe">Stripe</option>
                 <option value="paypal">PayPal</option>
+                <option value="aba">ABA Payway</option>
               </select>
             </div>
             <div class="md:col-span-2">
@@ -115,6 +116,8 @@ const form = ref({
 })
 const errors = ref({})
 const submitting = ref(false)
+const showQrModal = ref(false)
+const qrContent = ref('')
 
 function clearError(field) {
   delete errors.value[field]
@@ -131,6 +134,11 @@ onMounted(async () => {
 })
 
 async function placeOrder() {
+  if (form.value.payment_method === 'aba') {
+    window.open('https://link.payway.com.kh/ABAPAY19471568n', '_blank', 'noopener,noreferrer')
+    return
+  }
+
   submitting.value = true
   errors.value = {}
   try {
